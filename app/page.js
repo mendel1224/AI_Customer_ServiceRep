@@ -1,13 +1,15 @@
 'use client' // render on client side instead of server
-import { Box } from "@mui/material";
+import { Box, Button, Stack, TextField } from "@mui/material";
 import Image from "next/image";
 import {useState} from 'react'
 
 export default function Home() {
- const [messages, setMessages] = useState ({
-  role: 'assistatnt',
-  content: 'Hi I am the Travel Agent Support Agent, how can I assit you today?'
- })
+ const [messages, setMessages] = useState ([
+  {
+  role: 'assistant',
+  content: 'Hi I am the Travel Agent Support Agent, how can I assist you today?'
+ },
+])
  const [message, setMessage] = useState('')
  return (
  <Box 
@@ -23,12 +25,38 @@ export default function Home() {
   width = "600px"
   height = "700px"
   border = "1px solid black"
-  pading = {2}
+  padding = {2}
   spacing = {3}
   >
- <Stack direction = "column" spacing = {2} >
+ <Stack 
+ direction = "column" 
+ spacing = {2} 
+ flexGrow = {1} 
+ overflow = "auto" 
+ maxHeight = "100%"
+ > 
+ {
+  messages.map((message, index) => (
+    <Box key={index} display = "flex"
+    justifyContent={message.role=== 'assistant' ? 'flex-start': 'flex-end'}
+    >
+    <Box
+    bgcolor={
+      message.role == 'assistant'
+      ? 'primary.main'
+      :'secondary.main'
+    }
+  color = "white"
+  borderRadius={16}
+  p={3}
+  >
+    {message.content}
+ </Box>
+ </Box>
+  ))}
  </Stack>
 
   </Stack>
- </Box>)
+ </Box>
+ )
 }
